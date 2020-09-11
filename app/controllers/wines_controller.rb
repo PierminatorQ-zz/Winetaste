@@ -1,6 +1,7 @@
 class WinesController < ApplicationController
   before_action :set_wine, only: [:show, :edit, :update, :destroy]
   before_action :only_strain_availables, only: [:new, :edit]
+  
 
   # GET /wines
   # GET /wines.json
@@ -16,12 +17,12 @@ class WinesController < ApplicationController
   # GET /wines/new
   def new
     @wine = Wine.new
-    
+    @oenologists=Oenologist.order(:age)
   end
 
   # GET /wines/1/edit
   def edit
-    
+    @oenologists=Oenologist.order(:age)
   end
 
   # POST /wines
@@ -46,6 +47,9 @@ class WinesController < ApplicationController
   def update
     respond_to do |format|
       if @wine.update(wine_params)
+
+        @wine.oenologists.destroy_all
+        @wine.oenologists << Oenologist.where(id: params[:wine][:oenologists])
         @wine.addStrainPercent(params[:wine][:strains_percent])
         format.html { redirect_to @wine, notice: 'Wine was successfully updated.' }
         format.json { render :show, status: :ok, location: @wine }
