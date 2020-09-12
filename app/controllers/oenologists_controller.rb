@@ -28,6 +28,7 @@ class OenologistsController < ApplicationController
 
     respond_to do |format|
       if @oenologist.save
+        @oenologist.set_references(params[:oenologist][:job_titles])
         format.html { redirect_to @oenologist, notice: 'Oenologist was successfully created.' }
         format.json { render :show, status: :created, location: @oenologist }
       else
@@ -42,6 +43,7 @@ class OenologistsController < ApplicationController
   def update
     respond_to do |format|
       if @oenologist.update(oenologist_params)
+        @oenologist.set_references(params[:oenologist][:job_titles])
         format.html { redirect_to @oenologist, notice: 'Oenologist was successfully updated.' }
         format.json { render :show, status: :ok, location: @oenologist }
       else

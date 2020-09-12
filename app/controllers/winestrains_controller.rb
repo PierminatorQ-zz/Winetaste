@@ -1,5 +1,6 @@
 class WinestrainsController < ApplicationController
   before_action :set_winestrain, only: [:show, :edit, :update, :destroy]
+  
 
   # GET /winestrains
   # GET /winestrains.json
